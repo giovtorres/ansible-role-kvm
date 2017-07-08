@@ -1,6 +1,9 @@
 Ansible Role: kvm
 =================
 
+[![Build Status](https://travis-ci.org/giovtorres/ansible-role-kvm.svg?branch=master)](https://travis-ci.org/giovtorres/ansible-role-kvm)
+[![Ansible Role](https://img.shields.io/ansible/role/19071.svg)](https://galaxy.ansible.com/giovtorres/kvm/)
+
 Installs the KVM hypervisor and additional virtualization packages.  Supported on EL7.
 
 Requirements
