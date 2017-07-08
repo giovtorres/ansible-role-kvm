@@ -1,0 +1,84 @@
+---
+- name: Install hypervisor software.
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libvirt
+    - qemu-kvm
+
+- name: Install additional virtualization packages.
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libguestfs-tools
+    - libvirt-python
+    - virt-install
+    - virt-manager
+    - virt-top
+    - virt-viewer
+
+- name: Start and enable the libvirtd server.
+  service:
+    name: libvirtd
+    state: started
+    enabled: yes
+  when:
+    - kvm_enable_libvirtd
+
+- name: Stop and diable the libvirtd server.
+  service:
+    name: libvirtd
+    state: stopped
+    enabled: no
+  when:
+    - not kvm_enable_libvirtd
+
+- name: Start and enable the libvirt-guests service.
+  service:
+    name: libvirt-guests
+    state: started
+    enabled: yes
+  when:
+    - kvm_enable_libvirt_guests
+
+- name: Stop and disable the libvirt-guests service.
+  service:
+    name: libvirt-guests
+    state: stopped
+    enabled: no
+  when:
+    - not kvm_enable_libvirt_guests
+
+- name: Start and enable the kernel same-page merging service.
+  service:
+    name: ksm
+    state: started
+    enabled: yes
+  when:
+    - kvm_enable_ksm
+
+- name: Stop and disable the kernel same-page merging service.
+  service:
+    name: ksm
+    state: stopped
+    enabled: no
+  when:
+    - not kvm_enable_ksm
+
+- name: Start and enable the NUMA user daemon.
+  service:
+    name: numad
+    state: started
+    enabled: yes
+  when:
+    - kvm_enable_numad
+
+- name: Stop and disable the NUMA user daemon.
+  service:
+    name: numad
+    state: stopped
+    enabled: no
+  when:
+    - not kvm_enable_numad
