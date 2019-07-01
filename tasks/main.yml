@@ -1,23 +1,21 @@
 ---
 - name: Install hypervisor software.
   package:
-    name: "{{ item }}"
+    name:
+      - libvirt
+      - qemu-kvm
     state: present
-  with_items:
-    - libvirt
-    - qemu-kvm
 
 - name: Install additional virtualization packages.
   package:
-    name: "{{ item }}"
+    name:
+      - libguestfs-tools
+      - libvirt-python
+      - virt-install
+      - virt-manager
+      - virt-top
+      - virt-viewer
     state: present
-  with_items:
-    - libguestfs-tools
-    - libvirt-python
-    - virt-install
-    - virt-manager
-    - virt-top
-    - virt-viewer
 
 - name: Start and enable the libvirtd server.
   service:
@@ -25,7 +23,7 @@
     state: started
     enabled: yes
   when:
-    - kvm_enable_libvirtd
+    - kvm_enable_libvirtd|bool
 
 - name: Stop and diable the libvirtd server.
   service:
@@ -33,7 +31,7 @@
     state: stopped
     enabled: no
   when:
-    - not kvm_enable_libvirtd
+    - not kvm_enable_libvirtd|bool
 
 - name: Start and enable the libvirt-guests service.
   service:
@@ -41,7 +39,7 @@
     state: started
     enabled: yes
   when:
-    - kvm_enable_libvirt_guests
+    - kvm_enable_libvirt_guests|bool
 
 - name: Stop and disable the libvirt-guests service.
   service:
@@ -49,7 +47,7 @@
     state: stopped
     enabled: no
   when:
-    - not kvm_enable_libvirt_guests
+    - not kvm_enable_libvirt_guests|bool
 
 - name: Start and enable the kernel same-page merging service.
   service:
@@ -57,7 +55,7 @@
     state: started
     enabled: yes
   when:
-    - kvm_enable_ksm
+    - kvm_enable_ksm|bool
 
 - name: Stop and disable the kernel same-page merging service.
   service:
@@ -65,7 +63,7 @@
     state: stopped
     enabled: no
   when:
-    - not kvm_enable_ksm
+    - not kvm_enable_ksm|bool
 
 - name: Start and enable the NUMA user daemon.
   service:
@@ -73,7 +71,7 @@
     state: started
     enabled: yes
   when:
-    - kvm_enable_numad
+    - kvm_enable_numad|bool
 
 - name: Stop and disable the NUMA user daemon.
   service:
@@ -81,4 +79,4 @@
     state: stopped
     enabled: no
   when:
-    - not kvm_enable_numad
+    - not kvm_enable_numad|bool

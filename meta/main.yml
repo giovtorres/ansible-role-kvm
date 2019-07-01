@@ -1,16 +1,17 @@
+---
 galaxy_info:
   author: Giovanni Torres
   description: Installs the KVM hypervisor and additional virtualization packages.
   license: license BSD
   min_ansible_version: 1.6
   platforms:
-  - name: EL
-    versions:
-    - 7
+    - name: EL
+      versions:
+        - 7
   galaxy_tags:
-  - system
-  - hypervisor
-  - kvm
-  - libvirt
-  - virtualization
+    - system
+    - hypervisor
+    - kvm
+    - libvirt
+    - virtualization
 dependencies: []
